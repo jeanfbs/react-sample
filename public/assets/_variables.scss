@@ -1,0 +1,22 @@
+
+$red: rgb(170, 14, 14);
+$yellow: #ffc045;
+$green: rgb(13, 117, 38);
+$teal: rgb(19, 150, 112);
+$blue: #065471;
+$enable-shadows: true;
+$table-cell-padding: 0.8rem;
+$table-color: $gray-900;
+$table-bg: $white;
+$form-feedback-valid-color: theme-color("primary");
+$card-border-color: rgba($blue, .125);
+$card-cap-bg: rgba($blue, .03);
+$input-btn-focus-color: rgba($component-active-bg, .15);
+$input-border-color: $blue;
+$input-focus-border-color: lighten($component-active-bg, 12%);
+$input-focus-color: $blue;
+$body-color: darken($blue, 8%);
+$table-hover-bg: rgba($black, .035);
+$table-active-bg: rgba($black, .055);
+$alert-padding-x: 0.25rem;
+$alert-padding-y: 0.25rem;

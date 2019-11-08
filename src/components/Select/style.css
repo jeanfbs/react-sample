@@ -1,0 +1,3 @@
+.was-validated #hidden-validate:invalid~.invalid-feedback{
+    display: block;
+}

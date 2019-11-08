@@ -1,0 +1,68 @@
+body{
+  background: transparent url("/img/overlay.png") repeat;
+}
+
+#editor{
+  border: 1px solid #666;
+  box-shadow: -8px -2px 24px #ccc;
+}
+
+.proposal-col{
+  margin: 0px;
+  padding: 0px;
+  text-align: right;
+}
+.proposalIcon{
+  width: 90px;
+  margin: auto;
+}
+
+.row{
+  margin: 15px 0px;
+}
+
+
+
+.select-placeholder, .loading-message{
+  margin: 5px;
+}
+
+
+.navbar-light .navbar-brand{
+  font-size: 28px;
+}
+
+caption{
+  caption-side: top;
+}
+
+.table-client .form-check{
+  text-align: center;
+}
+
+.material-icons {
+  font-size: 20px;
+}
+
+
+
+#jsx-template{
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+}
+
+.preview-pdf{
+  border: 1px solid #999;
+  width: 98%; 
+  height: 650px;
+  background: #fff;
+  margin: 50px 0;
+}
+
+
+
+
+.form-check-input.is-valid~.form-check-label, .was-validated .form-check-input:valid~.form-check-label{
+  color: #212529!important;
+}

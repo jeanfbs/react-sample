@@ -1,0 +1,64 @@
+.column-sort, .column-sort:active, .column-sort:focus{
+    background: none;
+    border: 1px solid transparent;
+    color:#444;
+    font-weight: 600;
+    font-size: 16px;
+    display: block;
+    width: 100%;
+    text-align: left;
+    outline: none;
+    
+}
+.column-sort:hover{
+    background: #fbfbfb;
+    border: 1px solid #fafafa;
+    border-radius: 4px;
+}
+
+.entries{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 2px;
+    display: inline-block;
+    margin: 0 5px;
+}
+
+
+#lds-ring{
+    display: inline
+}
+
+#lds-ring div {
+    box-sizing: border-box;
+    display: inline-block;
+    vertical-align: middle;
+    margin: auto;
+    z-index: 3;
+    border: 3px solid #fff;
+    border-color: #fff transparent transparent transparent;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+#lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+}
+
+#lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+}
+
+#lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+}
+
+@keyframes lds-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
