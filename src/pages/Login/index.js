@@ -32,7 +32,6 @@ const { PUBLIC_URL } = process.env;
     state = {
         validated: false,
         processing: false,
-        message: null,
         formData: {  }
     }
 
@@ -50,7 +49,7 @@ const { PUBLIC_URL } = process.env;
             const { token, username } = await this.authService.login(formData);
             this.props.loginAction(token, username);
         }catch(err){
-            
+            this.props.alertError(err.message);
         }finally{
             this.setState({ processing: false });
         }
@@ -59,11 +58,11 @@ const { PUBLIC_URL } = process.env;
     render = () => {
         
         const { processing, formData, validated } = this.state;
-        const { message, variant } = this.props.alert;
-        
+        const { message, variant, isShowing } = this.props.alert;
+        console.log(this.props.alert);
         return (
             <Row id="login-row">
-                <Col sm={ 4 }>
+                <Col sm={ 4 } className="offset-4">
                     <Card key={ "login-form" } id="login" border="dark" className="card-1">
                         <Card.Body>
                             <Row>
@@ -78,7 +77,7 @@ const { PUBLIC_URL } = process.env;
                             <hr />
                             <Row>
                                 <Col sm={ 12 } >
-                                    <Alert key={ "error-alert" } show={ message != null } onClose={ () => this.props.alertClean() } dismissible variant={ variant || '' }>
+                                    <Alert key={ "error-alert" } show={ isShowing } onClose={ () => this.props.alertClean() } dismissible variant={ variant || '' }>
                                         <Row>
                                             <Col sm={2}>
                                                 <FaExclamationTriangle style={{ fontSize: "22px" }}/>    

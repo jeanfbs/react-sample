@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import {
     Login ,
     Activate,
+    Recovery,
     Main
 } from "./pages";
 
@@ -14,6 +15,7 @@ const Routes = ({ auth }) => (
                 { auth.isLoggedIn ? <Redirect push  to="/main/establishments/" /> : <Login /> }
             </Route>
             <Route path="/activate/:token" exact component={ Activate } />
+            <Route path="/recovery" exact component={ Recovery } />
             <PrivateRoute  path='/main' isLoggedIn={ auth.isLoggedIn } component={ Main }  />
         </Switch>
     </Router>
