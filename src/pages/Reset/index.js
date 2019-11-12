@@ -74,7 +74,7 @@ class Reset extends Component {
                             <div>
                                 <Row>
                                     <Col sm={12} className="text-center" >
-                                        <h2> Mudar Senha</h2>
+                                        <h2> Nova Senha</h2>
                                         <hr/>
                                     </Col>
                                 </Row>

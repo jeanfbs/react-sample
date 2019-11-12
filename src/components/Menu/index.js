@@ -5,7 +5,6 @@ import {
     NavDropdown,
     Row,
     Col,
-    ButtonToolbar,
     Dropdown,
     Button,
     ButtonGroup
@@ -14,7 +13,7 @@ import { NavLink } from 'react-router-dom';
 import { 
     FaUserCircle, 
     FaSignOutAlt, 
-    FaStoreAlt, 
+    FaTachometerAlt, 
     FaLifeRing, 
     FaTools, 
     FaHandHoldingUsd,
@@ -44,13 +43,8 @@ class Menu extends Component {
     constructor(props){
         super(props);
         this.authService = props.providers.authService;
-        this.establishmentService = props.providers.establishmentService;
     }
 
-    goToEc = establishment => {
-        const { historic } = this.props.ec;
-        this.establishmentService.loadEstablishment(establishment, historic, this.props.setHistoric, this.props.setCurrentEc);
-    }
 
     logoutHandler = () => {
         this.authService.logout();
@@ -66,13 +60,12 @@ class Menu extends Component {
             <div>
                 <Navbar className="navbar-theme" variant="light" bg="white">
                 <Navbar.Brand href="#" onClick={ ev => ev.preventDefault() }>
-                    <img src={ PUBLIC_URL + '/img/logo.png' } alt="Unica" width="100" />
+                    <img src={ PUBLIC_URL + '/img/logo.png' } alt="React" width="120" />
                 </Navbar.Brand>
-                <Nav className={ currentEc == null ? 'd-none': '' }>
-                    {console.log(this.props)}
-                    <NavLink to={`${this.props.history.location.pathname.split("/").slice(0, 4).join("/")}/cadastral-details`} className="nav-link"><FaStoreAlt className="icon" /> Dados Cadastrais</NavLink>
+                <Nav>
+                    <NavLink to={`${this.props.history.location.pathname.split("/").slice(0, 4).join("/")}/dashboard`} className="nav-link"><FaTachometerAlt className="icon" /> Dashboard</NavLink>
                 </Nav>
-                <Nav className={ currentEc == null ? 'd-none': '' }>
+                <Nav>
                     <NavDropdown title={ <span><FaTools className="icon" /> Ferramentas</span> } >
                         <NavDropdown.Item href="#action/3.1"> <FaFileInvoiceDollar className="icon" /> Ajuste Financeiro</NavDropdown.Item>
                         <NavDropdown.Item href="#action/3.2"><FaTasks className="icon" /> Lista Soluções</NavDropdown.Item>
@@ -81,10 +74,10 @@ class Menu extends Component {
                         <NavDropdown.Item href="#action/3.4"> <FaReply className="icon" /> Estorno de Vendas</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
-                <Nav className={ currentEc == null ? 'd-none': '' }>
+                <Nav>
                     <NavLink to={`${this.props.path}/clients/`} className="nav-link"><FaHandHoldingUsd className="icon" /> Antecipação de Recebiveis</NavLink>
                 </Nav>
-                <Nav className={ currentEc == null ? 'd-none': '' }>
+                <Nav>
                     <NavDropdown title={ <span>Outros</span> } alignRight>
                         <NavDropdown.Item href="#action/3.1"><FaLifeRing className="icon" /> Suporte</NavDropdown.Item>
                         <NavDropdown.Item href="#action/3.2"><FaTasks className="icon" /> Lista Soluções</NavDropdown.Item>
@@ -109,7 +102,7 @@ class Menu extends Component {
             </Navbar>
             <Row className={ "secondary-navbar " + (currentEc == null ? 'd-none': '') }>
                 <Col sm={ 1 } className="text-right pr-1">
-                    <FaStoreAlt className="icon"  style={{ fontSize: "18px" }}/>
+                    <FaTachometerAlt className="icon"  style={{ fontSize: "18px" }}/>
                 </Col>
                 <Col sm={ 11 } className="pl-1">
                     <span className={"mr-5"}><strong>EC:</strong> { currentEc != null ? currentEc.ec : '' }</span>

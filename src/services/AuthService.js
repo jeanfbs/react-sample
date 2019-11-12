@@ -4,6 +4,7 @@ import decode from "jwt-decode";
 const { 
     REACT_APP_API_URL: API_URL, 
     REACT_APP_LOGIN: LOGIN,
+    REACT_APP_ACTIVATE: ACTIVATE,
     REACT_APP_RECOVERY: RECOVERY,
     REACT_APP_REGISTER: REGISTER,
     REACT_APP_CLIENT_ID: CLIENT_ID
@@ -13,6 +14,16 @@ export default class AuthService {
 
     constructor(apiResponseResolver){
         this.apiResponseResolver = apiResponseResolver;
+    }
+
+    activate = async token => {
+        
+        //return await HttpService.post(API_URL + ACTIVATE, { 
+            return await HttpService.post('http://www.mocky.io/v2/5dc755cb3800001300cded14',{ 
+                token
+            }).catch(err => {
+                throw new Error(this.apiResponseResolver.resolver(err.response));
+            });
     }
 
     register = async formData => {
