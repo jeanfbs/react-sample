@@ -5,7 +5,10 @@ import {
     Login ,
     Activate,
     Recovery,
-    Main
+    Register,
+    Reset,
+    Main,
+    NotFound
 } from "./pages";
 
 const Routes = ({ auth }) => (
@@ -14,9 +17,12 @@ const Routes = ({ auth }) => (
             <Route path="/" exact>
                 { auth.isLoggedIn ? <Redirect push  to="/main/establishments/" /> : <Login /> }
             </Route>
-            <Route path="/activate/:token" exact component={ Activate } />
+            <Route path="/activate/:transientToken" exact component={ Activate } />
+            <Route path="/reset/:transientToken" exact component={ Reset } />
             <Route path="/recovery" exact component={ Recovery } />
+            <Route path="/register" exact component={ Register } />
             <PrivateRoute  path='/main' isLoggedIn={ auth.isLoggedIn } component={ Main }  />
+            <Route path="*" component={NotFound}/>
         </Switch>
     </Router>
 );

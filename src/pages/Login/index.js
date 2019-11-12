@@ -59,7 +59,7 @@ const { PUBLIC_URL } = process.env;
         
         const { processing, formData, validated } = this.state;
         const { message, variant, isShowing } = this.props.alert;
-        console.log(this.props.alert);
+        
         return (
             <Row id="login-row">
                 <Col sm={ 4 } className="offset-4">

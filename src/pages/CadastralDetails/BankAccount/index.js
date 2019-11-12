@@ -23,6 +23,10 @@ import Utils from "../../../utils/Utils";
 import FormValidator from "../../../validators/FormValidator";
 import "./style.css";
 
+const {
+    PUBLIC_URL
+} = process.env;
+
 class BankAccount extends Component {
 
     constructor(props){
@@ -182,7 +186,7 @@ const BankItem = props => (
     <Col sm={ 4 }>
         <Card border="dark" className={ "card-1 mb-3 " + ( props.item.disabled ? 'text-muted': '' ) }>
             <Card.Header className="bg-light credicard-flag" >
-                <img src={ process.env.PUBLIC_URL + '/img/' + (props.item ? props.item.icon : '')  } alt="Icone Bandeira"  width="50" />
+                <img src={ PUBLIC_URL + '/img/' + (props.item ? props.item.icon : '')  } alt="Icone Bandeira"  width="50" />
                 <Button className={ "float-right " + ( props.item.disabled ? 'd-none': '' ) } size={"xs"} style={{marginTop: '10px' }} variant="outline-dark" onClick={ evt => props.enableForm(true, props.index) }> <FaEdit /> Editar </Button>
             </Card.Header>
             <Card.Body>

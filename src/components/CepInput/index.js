@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import {
     Form,
     Col,
-    InputGroup
+    InputGroup,
+    Row
 } from 'react-bootstrap';
 import { CepClientApi } from "../../services";
 import NumberFormat from 'react-number-format';
@@ -24,40 +25,102 @@ export default class CepInput extends Component {
     onBlur = async event => {
         event.preventDefault();
         this.setState({ loading: true });
-        let address = await this.cepApi.findAddressByCep(event);
-        this.props.onBlur(address)
+        if(event.target.value !== ''){
+            let address = await this.cepApi.findAddressByCep(event);
+            this.props.onBlur(address)
+        }
         this.setState({  loading: false });    
     }
 
     render = () => {
 
-        const { disabled, plaintext, name, onChange, value, required, sm } = this.props;
+        const { disabled, plaintext, name, onChange, value, required, sm, type} = this.props;
         const { loading } = this.state;
-
+        
         return (
-            <Form.Group as={ Col } sm={ sm } controlId="formCep">
-                <Form.Label>* CEP</Form.Label>
-                <InputGroup className="mb-3">
-                    <NumberFormat 
-                        customInput={ Form.Control } 
-                        format="##.###-###" 
-                        mask="_" 
-                        plaintext={ plaintext } 
-                        disabled={ disabled } 
-                        name={ name } 
+            <>
+                {
+                    type === 'inline' ? 
+                    <InlineCepInput 
+                        key="inlineCep"
+                        plaintext={ plaintext }
+                        disabled={ disabled }
+                        name={ name }
                         required={ required }
                         onBlur={ this.onBlur }
-                        onChange={ onChange } 
+                        onChange={ onChange }
                         value={ value }
+                        loading={ loading }
+                        sm={ sm }
+                    /> :
+                    <HorizontalCepInput 
+                        key="horizontalCep"
+                        plaintext={ plaintext }
+                        disabled={ disabled }
+                        name={ name }
+                        required={ required }
+                        onBlur={ this.onBlur }
+                        onChange={ onChange }
+                        value={ value }
+                        loading={ loading }
+                        sm={ sm }
                     />
-                    <Form.Control.Feedback type="invalid">Campo obrigatório</Form.Control.Feedback>
-                    <InputGroup.Append className={ plaintext ? 'd-none': ''}>
-                        <InputGroup.Text className={ "spinner-input " + (disabled ? 'spinner-input-disabled' : '') }> 
-                            <Spinner className={ loading ? '' : 'd-none' } variant="dark" width="20" height="20" loading={ loading } />
-                        </InputGroup.Text>
-                    </InputGroup.Append>
-                </InputGroup>
-            </Form.Group>
+                }
+            </>
         )
     }
 }
+
+
+
+const InlineCepInput = (props) => 
+<Form.Group as={ Col } sm={ props.sm } controlId="formCep">
+    <Form.Label>* CEP</Form.Label>
+    <InputGroup className="mb-3">
+        <NumberFormat 
+            customInput={ Form.Control } 
+            format="##.###-###" 
+            mask="_" 
+            plaintext={ props.plaintext } 
+            disabled={ props.disabled } 
+            name={ props.name } 
+            required={ props.required }
+            onBlur={ props.onBlur }
+            onChange={ props.onChange } 
+            value={ props.value }
+        />
+        <InputGroup.Append className={ props.plaintext ? 'd-none': ''}>
+            <InputGroup.Text className={ "spinner-input " + (props.disabled ? 'spinner-input-disabled' : '') }> 
+                <Spinner className={ props.loading ? '' : 'd-none' } variant="dark" width="20" height="20" loading={ props.loading } />
+            </InputGroup.Text>
+        </InputGroup.Append>
+        <Form.Control.Feedback type="invalid">Campo obrigatório</Form.Control.Feedback>
+    </InputGroup>
+</Form.Group>
+
+const HorizontalCepInput = (props) => 
+<Form.Group as={ Row } controlId="formCep">
+    <Form.Label  column sm="3" className="text-right">* CEP</Form.Label>
+    <Col sm={ props.sm }>
+        <InputGroup className="mb-3">
+            <NumberFormat 
+                customInput={ Form.Control } 
+                format="##.###-###" 
+                mask="_" 
+                plaintext={ props.plaintext } 
+                disabled={ props.disabled } 
+                name={ props.name } 
+                required={ props.required }
+                onBlur={ props.onBlur }
+                onChange={ props.onChange } 
+                value={ props.value }
+            />
+            <InputGroup.Append className={ props.plaintext ? 'd-none': ''}>
+                <InputGroup.Text className={ "spinner-input " + (props.disabled ? 'spinner-input-disabled' : '') }> 
+                    <Spinner className={ props.loading ? '' : 'd-none' } variant="dark" width="20" height="20" loading={ props.loading } />
+                </InputGroup.Text>
+            </InputGroup.Append>
+            <Form.Control.Feedback type="invalid">Campo obrigatório</Form.Control.Feedback>
+        </InputGroup>
+    </Col>
+</Form.Group>

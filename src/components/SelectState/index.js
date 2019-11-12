@@ -7,10 +7,10 @@ export default class SelectState extends Component {
 
     render = () => {
 
-        const { name, disabled, value, onChange } = this.props;
+        const { name, disabled, value, onChange, required } = this.props;
 
         return (
-            <Form.Control as="select" name={ name || '' } plaintext={ disabled } disabled={ disabled } value={ value } onChange={ onChange } >
+            <Form.Control as="select" name={ name || '' } required={ required } plaintext={ disabled } disabled={ disabled } value={ value } onChange={ onChange } >
                 <option hidden disabled  defaultValue label="Selecione um Estado"></option>
                 <option value="ACRE"> Acre </option>
                 <option value="ALAGOAS"> Alagoas </option>

@@ -102,7 +102,6 @@ class Recovery extends Component {
                                             </InputGroup>
                                         </Form.Group>
                                         <Form.Group controlId="button" className="float-none">
-                                            
                                             <ButtonState block variant="outline-primary" spinner="dark" type="submit" loading={ processing } label="Enviar" />
                                         </Form.Group>
                                     </Form>

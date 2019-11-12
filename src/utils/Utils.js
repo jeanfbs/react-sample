@@ -14,11 +14,11 @@ export default {
 
     onChangeHandler: (event, formData) => {
         
-        let value = event.currentTarget.value;
-        let name = event.currentTarget.name;
+        let value = event.target.value;
+        let name = event.target.name;
 
-        if(event.currentTarget.getAttribute("type") === 'checkbox'){
-            value = event.currentTarget.checked;
+        if(event.target.getAttribute("type") === 'checkbox'){
+            value = event.target.checked;
         }
 
         formData[ name ] = value;
@@ -27,11 +27,11 @@ export default {
 
     onChangeHandlerComposite: (event, formData) => {
         
-        let value = event.currentTarget.value;
-        let name = event.currentTarget.name.split(".");
+        let value = event.target.value;
+        let name = event.target.name.split(".");
 
-        if(event.currentTarget.getAttribute("type") === 'checkbox'){
-            value = event.currentTarget.checked;
+        if(event.target.getAttribute("type") === 'checkbox'){
+            value = event.target.checked;
         }
 
         let objAux = formData[ name[0] ];
