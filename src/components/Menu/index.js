@@ -12,16 +12,14 @@ import {
 import { NavLink } from 'react-router-dom';
 import { 
     FaUserCircle, 
+    FaTable,
+    FaStoreAlt,
     FaSignOutAlt, 
     FaTachometerAlt, 
     FaLifeRing, 
-    FaTools, 
-    FaHandHoldingUsd,
-    FaFileInvoiceDollar,
-    FaReply,
+    FaUserEdit,
     FaTasks,
     FaBan,
-    FaDesktop
 } from "react-icons/fa";
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -63,19 +61,13 @@ class Menu extends Component {
                     <img src={ PUBLIC_URL + '/img/logo.png' } alt="React" width="120" />
                 </Navbar.Brand>
                 <Nav>
-                    <NavLink to={`${this.props.history.location.pathname.split("/").slice(0, 4).join("/")}/dashboard`} className="nav-link"><FaTachometerAlt className="icon" /> Dashboard</NavLink>
+                    <NavLink to={`${this.props.history.location.pathname.split("/").slice(0, 2).join("/")}/dashboard/`} className="nav-link"><FaTachometerAlt className="icon" /> Dashboard</NavLink>
                 </Nav>
                 <Nav>
-                    <NavDropdown title={ <span><FaTools className="icon" /> Ferramentas</span> } >
-                        <NavDropdown.Item href="#action/3.1"> <FaFileInvoiceDollar className="icon" /> Ajuste Financeiro</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.2"><FaTasks className="icon" /> Lista Soluções</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.3"><FaBan className="icon" /> Bloqueios</NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item href="#action/3.4"> <FaReply className="icon" /> Estorno de Vendas</NavDropdown.Item>
-                    </NavDropdown>
+                    <NavLink to={`${this.props.history.location.pathname.split("/").slice(0, 2).join("/")}/dataTableExample/`} className="nav-link"><FaTable className="icon" /> DataTable</NavLink>
                 </Nav>
                 <Nav>
-                    <NavLink to={`${this.props.path}/clients/`} className="nav-link"><FaHandHoldingUsd className="icon" /> Antecipação de Recebiveis</NavLink>
+                    <NavLink to={`${this.props.history.location.pathname.split("/").slice(0, 2).join("/")}/form/`} className="nav-link"><FaUserEdit className="icon" /> Form</NavLink>
                 </Nav>
                 <Nav>
                     <NavDropdown title={ <span>Outros</span> } alignRight>
@@ -84,30 +76,23 @@ class Menu extends Component {
                         <NavDropdown.Item href="#action/3.3"><FaBan className="icon" /> Bloqueios</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
-                <Nav className={ "ml-auto " + (currentEc == null ? 'd-none': '') }>
-                    <Button variant="secondary" size={"xs"} className="btn-tool mr-2 card-1" href={ PORTAL_WEB } target="_blank" ><FaDesktop className="icon" /> Acesso ao Portal</Button>
-                    <Dropdown as={ ButtonGroup } className="btn-tool card-1" alignRight>
-                        <Button href="/main/establishments/" variant="primary" size={"xs"}><FaSignOutAlt className="icon" /> Trocar EC</Button>
-                        <Dropdown.Toggle split variant="primary" size={"xs"} />
-                        <Dropdown.Menu className="troca-dropdown-menu"  >
-                            <SwapEcDropDown goToEc={ this.goToEc }/>
-                        </Dropdown.Menu>
-                    </Dropdown>
+                <Nav className={ "ml-auto " }>
+                    
                 </Nav>
-                <Nav  className={ currentEc == null ? 'ml-auto': 'm-0' }>
+                <Nav  className={ 'ml-auto' }>
                     <NavDropdown title={ textMenu } className="user-menu" >
                         <NavDropdown.Item href="/" onClick={ this.logoutHandler }><FaSignOutAlt className="icon"  /> Sair </NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
             </Navbar>
-            <Row className={ "secondary-navbar " + (currentEc == null ? 'd-none': '') }>
+            <Row className={ "secondary-navbar " }>
                 <Col sm={ 1 } className="text-right pr-1">
-                    <FaTachometerAlt className="icon"  style={{ fontSize: "18px" }}/>
+                    <FaStoreAlt className="icon"  style={{ fontSize: "18px" }}/>
                 </Col>
                 <Col sm={ 11 } className="pl-1">
-                    <span className={"mr-5"}><strong>EC:</strong> { currentEc != null ? currentEc.ec : '' }</span>
-                    <span className={"mr-5"}><strong>CNPJ:</strong> { currentEc != null ? Utils.cnpjMask(currentEc.cnpj) : '' } </span>
-                    <span className={"mr-5"}><strong>Razão Social:</strong> { currentEc != null ? currentEc.social_reason : '' } </span>
+                    <span className={"mr-5"}><strong>Código Loja:</strong> 10089</span>
+                    <span className={"mr-5"}><strong>Nome:</strong>  Supermecado Leal LTDA</span>
+                    <span className={"mr-5"}><strong>Responsável:</strong> João Ferreira </span>
                 </Col>
             </Row>
             </div>

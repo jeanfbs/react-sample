@@ -24,7 +24,7 @@ body{
 }
 
 .table-responsive{
-    height: 450px;
+    max-height: 450px;
     overflow: auto;
 }
 
@@ -89,4 +89,12 @@ legend{
 
 th{
     font-weight: 600;
+}
+
+.icon-help{
+    color:#fff;
+}
+
+.icon-help:hover{
+    color: #eee;
 }

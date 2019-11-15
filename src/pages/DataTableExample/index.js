@@ -15,12 +15,13 @@ import {
 } from 'react-bootstrap';
 import {
     FaStoreAlt,
+    FaQuestionCircle
 } from "react-icons/fa";
 import { Spinner, DataTable } from "../../components";
 import Utils from "../../utils/Utils";
 
 
-class Establishments extends Component {
+class DataTableExample extends Component {
 
     configDataTable = {
         url: "http://www.mocky.io/v2/5da903e631000058004e0699",
@@ -31,10 +32,10 @@ class Establishments extends Component {
         columns: [
             {
                 name: "ec",
-                value: "EC",
+                value: "#ID",
                 searchable: true,
                 render: (column, rowData) => {
-                    return <Link to={`${this.props.match.url + rowData.ec}/cadastral-details/`} onClick={ event => this.goToEc(rowData) }>{ rowData.ec }</Link>;
+                    return <Link to={ this.props.match.url + rowData.ec } onClick={ event => this.doAnything(rowData) }>{ rowData.ec }</Link>;
                 }
                 
             },
@@ -75,54 +76,40 @@ class Establishments extends Component {
         this.establishmentService = props.providers.establishmentService;
     }
 
-    state = {
-        queryValue: null,
-        results: null,
-        enableHistoric: true,
-        processing: false
-    }
+    state = { }
 
-    goToEc = establishment => {
-        const { historic } = this.props.ec;
-        this.establishmentService.loadEstablishment(establishment, historic, this.props.setHistoric, this.props.setCurrentEc);
+    doAnything = rowData => {
+        alert("Do Anything!");
     }
-
-    componentWillMount = () => {
-        const { historic } = this.props.ec;
-        this.setState({ enableHistoric: historic.length !== 0 })
-        this.props.setCurrentEc(null);
-    }
-
 
     onDataTableUpdated = () => {
-        this.setState({ enableHistoric: false })
+        alert("onDataTableUpdated called...");
     }
 
     render = () => {
 
-        const { processing, enableHistoric } = this.state;
-        const { historic } = this.props.ec;
         return (
             <div>
                 <Container fluid>
                     <br />
                     <Card border="secondary" className="card-1">
-                        <Card.Header><FaStoreAlt  className="icon"/> Estabelecimentos Comerciais</Card.Header>
+                        <Card.Header className="bg-primary text-white">
+                            <span><FaStoreAlt  className="icon"/> Data Table Exemplo</span>
+                            <span className="float-right">
+                                <Link to="#help"><FaQuestionCircle  className="icon icon-help"/></Link>    
+                            </span>
+                            
+                        </Card.Header>
                         <Card.Body>
                             <Row className={"m-0"}>
                                 <Col sm="12">
                                     <DataTable 
                                         responsive  
-                                        placeHolder="Buscar estabelecimentos..."
-                                        key={ "establishmentsTable" }
+                                        placeHolder="Buscar dados..."
+                                        key={ "dataTableExample" }
                                         config={ this.configDataTable }
                                         updated={ this.onDataTableUpdated }
                                     />
-                                </Col>
-                            </Row>
-                            <Row className={"m-0 " + (enableHistoric ? '' : 'd-none')}>
-                                <Col sm="12">
-                                    <TableHistoricEc historic={historic} processing={processing} goToEc={ this.goToEc } match={ this.props.match } />
                                 </Col>
                             </Row>
                         </Card.Body>
@@ -179,4 +166,4 @@ const mapStateToProps = state => ({
     ec: state.ec
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Establishments);
+export default connect(mapStateToProps, mapDispatchToProps)(DataTableExample);

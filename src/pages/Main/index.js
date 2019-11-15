@@ -10,9 +10,9 @@ import { authActions }  from "../../store/ducks/auth";
 import { alertActions }  from "../../store/ducks/alert";
 import { Alert } from "../../components";
 import  ClientDataTable  from '../Client/ClientDataTable';
-import  ClientForm  from '../Client/RegisterForm';
+import  FormExample  from '../Client/FormExample';
 import { 
-    Establishments,
+    DataTableExample,
     CadastralDetails
 } from "../";
 import './Main.css';
@@ -36,10 +36,10 @@ class Main extends Component {
                         />
                 </Container>
                 <Switch>
-                    <Route path={ `${this.props.match.path}/establishments/:id?` } exact component={ Establishments } />
-                    <Route path={ `${this.props.match.path}/establishments/:id/cadastral-details/` } exact render={ (props) => <CadastralDetails {...props} key={props.match.params.id} /> } />
-                    {/* <Route path={ `${this.props.match.path}/clients` } exact component={ ClientDataTable } />
-                    <Route path={ `${this.props.match.path}/clients/new` } exact component={ ClientForm } />
+                    <Route path={ `${this.props.match.path}/dataTableExample/` } exact component={ DataTableExample } />
+                    <Route path={ `${this.props.match.path}/cadastral-details/` } exact render={ (props) => <CadastralDetails {...props} key={props.match.params.id} /> } />
+                    <Route path={ `${this.props.match.path}/form/` } exact component={ FormExample } />
+                    {/* <Route path={ `${this.props.match.path}/clients/new` } exact component={ ClientForm } />
                     <Route path={ `${this.props.match.path}/clients/edit/:id` } exact component={ ClientForm } /> */}
                 </Switch>
             </div>
