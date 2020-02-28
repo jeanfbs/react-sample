@@ -24,3 +24,11 @@
 .btn-toolbar .btn-tool{
     margin: 5px;
   }
+
+  @media(max-width: 680px){
+    .dropdown-menu{
+        box-shadow: none;
+        border: none;
+        border-radius: none;
+    }
+}

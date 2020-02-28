@@ -60,13 +60,19 @@ label{
     border-bottom-right-radius: 4px;
 }
 
+fieldset{
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
 legend{
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 600;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 10px;
-    margin-bottom: 35px; 
-  }
+    background: transparent;
+    width: auto;
+    padding: 5px 10px;
+}
 
   .actions{
       margin: 0 2px;
@@ -97,4 +103,24 @@ th{
 
 .icon-help:hover{
     color: #eee;
+}
+
+.css-yk16xz-control, .css-1pahdxg-control{
+    border: 1px solid #065471!important;
+    min-height: 32px!important;
+    max-height: 32px!important;
+    box-shadow: none!important;
+}
+.css-yk16xz-control *{
+    color:#065471;
+}
+
+.css-1wa3eu0-placeholder{
+    top: 40%!important;
+    font-size: 14px!important;
+}
+
+.css-1okebmr-indicatorSeparator{
+    margin-bottom: 12px!important;
+    margin-top: 4px!important;
 }

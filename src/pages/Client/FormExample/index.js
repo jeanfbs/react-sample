@@ -23,7 +23,8 @@ import NumberFormat from 'react-number-format';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { alertActions }  from "../../../store/ducks/alert";
-import { ButtonState } from "../../../components";
+import BaseSelect from "react-select";
+import { ButtonState, Select } from "../../../components";
 import Utils from "../../../utils/Utils";
 import FormValidator from "../../../validators/FormValidator";
 
@@ -37,14 +38,23 @@ class FormExample extends Component {
     state = {
         validated: false,
         processing: false,
-        formData: this.props.details != null ? {...this.props.details}: { }
+        items: { },
+        formData: { }
     }
 
-    enableForm = status =>{
-        if(!status){
-            this.setState({ formData: {...this.props.details} });
+    componentWillMount = async () => {
+        
+        const { banks } = await this.cadastralDetailsService.getBanks();
+
+        const options = banks.map(item => this.mapToOption(item));
+        this.setState({ items: options });
+    }
+
+    mapToOption = item => {
+        return {
+            value: item.id,
+            label: item.name
         }
-        this.setState({ enableForm: status });
     }
 
     submitHandler = async submitEvent =>{
@@ -52,6 +62,10 @@ class FormExample extends Component {
         let isInvalid = FormValidator.validate(submitEvent);
         this.setState({ validated: isInvalid });
         
+        if(isInvalid){
+            return false;
+        }
+
         let formData = this.state.formData;
         this.setState({ processing: true });
         
@@ -70,13 +84,13 @@ class FormExample extends Component {
     
 
     render = () => {
-        const { formData, enableForm, processing, validated } = this.state;
+        const { formData, processing, validated, items } = this.state;
 
         return (
             <Container fluid>
                 <Card className="card-1 border-dark">
                     <Card.Header className="bg-primary text-white">
-                        <span><FaEdit  className="icon"/> Form Data</span>
+                        <span><FaEdit  className="icon"/> Exemplo Formulário</span>
                         <span className="float-right">
                             <Link to="#help"><FaQuestionCircle  className="icon icon-help"/></Link>    
                         </span>
@@ -90,82 +104,99 @@ class FormExample extends Component {
                         >
                         <fieldset>
                             <legend className="text-primary">
-                                <FaCaretRight /> Informações Gerais
+                                <FaCaretRight /> Tipos de Campos
                             </legend>
                             <Form.Row>
-                                <Form.Group as={ Col } controlId="formSocialReason">
-                                    <Form.Label>* Razão Social</Form.Label>
-                                    <Form.Control size="sm" type="text" required name="socialReason" onChange={ event => this.setState({ formData: Utils.onChangeHandler(event, formData) }) } value={ formData.socialReason || '' }/>
+                                <Form.Group as={ Col } sm={ 6 } xs={ 12 }>
+                                    <Form.Label>* Texto Normal</Form.Label>
+                                    <Form.Control size="sm" type="text" required name="normalText" onChange={ event => this.setState({ formData: Utils.onChangeHandler(event, formData) }) } value={ formData.normalText || '' }/>
                                     <Form.Control.Feedback type="invalid">Campo obrigatório</Form.Control.Feedback>
                                 </Form.Group>
 
-                                <Form.Group as={ Col } controlId="formCnpj">
-                                    <Form.Label>* CNPJ</Form.Label>
-                                    <NumberFormat size="sm" customInput={ Form.Control }  format="##.###.###/####-##" mask="_" required name="cnpj" onChange={ event => this.setState({ formData: Utils.onChangeHandler(event, formData) }) } value={ formData.cnpj || '' }/>
+                                <Form.Group as={ Col } sm={ 6 } xs={ 12 }>
+                                    <Form.Label>* Número Formatado</Form.Label>
+                                    <NumberFormat size="sm" customInput={ Form.Control } placeholder="##.###.###/####-##" format="##.###.###/####-##" mask="_" required name="formattedNumber" onChange={ event => this.setState({ formData: Utils.onChangeHandler(event, formData) }) } value={ formData.formattedNumber || '' }/>
                                     <Form.Control.Feedback type="invalid">Campo obrigatório</Form.Control.Feedback>
                                 </Form.Group>
                             </Form.Row>
                             <Form.Row>
-                                <Form.Group as={ Col } controlId="formFantasyName">
-                                    <Form.Label>* Nome Fantasia</Form.Label>
-                                    <Form.Control size="sm" type="text" required name="fantasyName" onChange={ event => this.setState({ formData: Utils.onChangeHandler(event, formData) }) } value={ formData.fantasyName || '' }/>
+                                <Form.Group as={ Col } sm={ 2 } xs={ 12 }>
+                                    <Form.Label>* Apenas Número</Form.Label>
+                                    <Form.Control size="sm" type="number" required name="justNumber" onChange={ event => this.setState({ formData: Utils.onChangeHandler(event, formData) }) } value={ formData.justNumber || '' }/>
                                     <Form.Control.Feedback type="invalid">Campo obrigatório</Form.Control.Feedback>
                                 </Form.Group>
 
-                                <Form.Group as={ Col } controlId="formEc">
-                                    <Form.Label>* Código da Loja</Form.Label>
-                                    <Form.Control size="sm" type="text" required name="ec" onChange={ event => this.setState({ formData: Utils.onChangeHandler(event, formData) }) } value={ formData.ec || '' }/>
-                                    <Form.Control.Feedback type="invalid">Campo obrigatório</Form.Control.Feedback>
-                                </Form.Group>
-                            </Form.Row>
-                        </fieldset>
-                        <fieldset>
-                            <legend className="text-primary"> <FaCaretRight />Tipo de Atividade</legend>
-                            <Form.Row>
-                                <Form.Group as={ Col } controlId="formMcc">
-                                    <Form.Label>* MCC - Ramo de Atividade</Form.Label>
-                                    <Form.Control size="sm" type="text" required name="mcc" onChange={ event => this.setState({ formData: Utils.onChangeHandler(event, formData) }) } value={ formData.mcc || '' }/>
-                                    <Form.Control.Feedback type="invalid">Campo obrigatório</Form.Control.Feedback>
-                                </Form.Group>
-                                <Form.Group as={ Col } controlId="formLegalNature">
-                                    <Form.Label>* Natureza Jurídica</Form.Label>
-                                    <Form.Control size="sm" type="text" required name="legalNature" onChange={ event => this.setState({ formData: Utils.onChangeHandler(event, formData) }) } value={ formData.legalNature || '' }/>
-                                    <Form.Control.Feedback type="invalid">Campo obrigatório</Form.Control.Feedback>
-                                </Form.Group>
-                            </Form.Row>
-                            <Form.Row>
-                                <Form.Group as={ Col } controlId="formJoinDate">
-                                    <Form.Label>* Data de Afiliação</Form.Label>
+                                <Form.Group as={ Col } sm={ 4 } xs={ 12 }>
+                                    <Form.Label>* Data</Form.Label>
                                     <InputGroup>
                                         <InputGroup.Prepend>
                                         <InputGroup.Text> <FaCalendarAlt /> </InputGroup.Text>
                                         </InputGroup.Prepend>
-                                        <Form.Control size="sm" type="date" required name="joinDate" onChange={ event => this.setState({ formData: Utils.onChangeHandler(event, formData) }) } value={ formData.joinDate || '' }/>
+                                        <Form.Control size="sm" type="date" required name="data" onChange={ event => this.setState({ formData: Utils.onChangeHandler(event, formData) }) } value={ formData.data || '' }/>
                                         <Form.Control.Feedback type="invalid">Campo obrigatório</Form.Control.Feedback>
                                     </InputGroup>
                                 </Form.Group>
-                                <Form.Group as={ Col } controlId="formCnae">
-                                    <Form.Label>* CNAE</Form.Label>
-                                    <Form.Control style={{ resize:'none' }} as="textarea" rows="3" required name="cnae" onChange={ event => this.setState({ formData: Utils.onChangeHandler(event, formData) }) } value={ formData.cnae || '' }/>
-                                    <Form.Control.Feedback type="invalid">Campo obrigatório</Form.Control.Feedback>
-                                </Form.Group>
-                            </Form.Row>
-                        </fieldset>
-                        <fieldset>
-                            <legend className="text-primary"> <FaCaretRight />Outros</legend>
-                            <Form.Row>
-                                <Form.Group as={ Col } controlId="formPhone">
-                                    <Form.Label>Telefone Principal</Form.Label>
+                                <Form.Group as={ Col } sm={ 6 } xs={ 12 } controlId="formPhone">
+                                    <Form.Label>Telefone Formatado</Form.Label>
                                     <InputGroup>
                                         <InputGroup.Prepend>
                                         <InputGroup.Text > <FaPhone /> </InputGroup.Text>
                                         </InputGroup.Prepend>
                                         <NumberFormat size="sm" customInput={ Form.Control } type="tel" format="(##) ####-####" mask="_" name="phone" onChange={ event => this.setState({ formData: Utils.onChangeHandler(event, formData) }) } value={ formData.phone || '' }/>
                                     </InputGroup>
-                                    
                                 </Form.Group>
+                            </Form.Row>
+                            <Form.Row>
+                                <Form.Group as={ Col } sm={ 6 } xs={ 12 }>
+                                    <Form.Label>* Text Area</Form.Label>
+                                    <Form.Control style={{ resize:'none' }} as="textarea" rows="3" required name="textarea" onChange={ event => this.setState({ formData: Utils.onChangeHandler(event, formData) }) } value={ formData.textarea || '' }/>
+                                    <Form.Control.Feedback type="invalid">Campo obrigatório</Form.Control.Feedback>
+                                </Form.Group>
+                                <Form.Group as={ Col } sm={ 6 } xs={ 12 }>
+                                    <Form.Label>E-Mail</Form.Label>
+                                    <InputGroup>
+                                        <InputGroup.Prepend>
+                                        <InputGroup.Text> <FaAt /> </InputGroup.Text>
+                                        </InputGroup.Prepend>
+                                        <Form.Control size="sm" type="email" name="email" onChange={ event => this.setState({ formData: Utils.onChangeHandler(event, formData) }) } value={ formData.email || '' }/>
+                                    </InputGroup>
+                                </Form.Group>
+                            </Form.Row>
+                        </fieldset>
+                        <fieldset>
+                            <legend className="text-primary"> <FaCaretRight />Tipo de Caixa de Seleção</legend>
+                            <Form.Row>
+                                <Form.Group as={ Col } sm={ 6 } xs={ 12 } sm={ 6 }>
+                                    <Form.Label>Tipo Padrão</Form.Label>
+                                    <Form.Control as="select" size="sm" name="selectOptions" onChange={ event => this.setState({ formData: Utils.onChangeHandler(event, formData) }) } value={ formData.selectOptions || '' }>
+                                        <option value="1">Opcao 1</option>
+                                        <option value="1">Opcao 2</option>
+                                        <option value="1">Opcao 3</option>
+                                        <option value="1">Opcao 4</option>
+                                        <option value="1">Opcao 5</option>
+                                    </Form.Control>
+                                </Form.Group>
+                                <Form.Group as={ Col } controlId="formBank">
+                                    <Form.Label>* Seleção com Pesquisa</Form.Label>
+                                    <Select 
+                                        SelectComponent={ BaseSelect }
+                                        placeholder={"Seleção com Pesquisa"}
+                                        options={ items } 
+                                        name="selectSearch"
+                                        required
+                                        isClearable
+                                        value={  formData.selectSearch || '' }
+                                        onChange={(value, action) => this.setState({ formData: Utils.onChangeHandleSelect(value, action.name, formData) }) }
+                                    />
+                                </Form.Group>
+                            </Form.Row>
+                        </fieldset>
+                        <fieldset>
+                            <legend className="text-primary"> <FaCaretRight />Outros</legend>
+                            <Form.Row>
+                                
 
-                                <Form.Group as={ Col } controlId="formEmail">
+                                <Form.Group as={ Col } sm={ 6 } xs={ 12 } controlId="formEmail">
                                     <Form.Label>E-Mail Principal</Form.Label>
                                     <InputGroup>
                                         <InputGroup.Prepend>
@@ -176,7 +207,7 @@ class FormExample extends Component {
                                 </Form.Group>
                             </Form.Row>
                             <Form.Row>
-                                <Form.Group as={ Col } sm={ 6 } controlId="formWhiteList">
+                                <Form.Group as={ Col } sm={ 6 } xs={ 12 } sm={ 6 } controlId="formWhiteList">
                                     <Form.Label>Presente na White List</Form.Label>
                                     <Form.Control as="select" size="sm" name="whiteList" onChange={ event => this.setState({ formData: Utils.onChangeHandler(event, formData) }) } value={ formData.whiteList || '' }>
                                         <option value="S">Sim</option>

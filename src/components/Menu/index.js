@@ -13,6 +13,7 @@ import { NavLink } from 'react-router-dom';
 import { 
     FaUserCircle, 
     FaTable,
+    FaBars,
     FaStoreAlt,
     FaSignOutAlt, 
     FaTachometerAlt, 
@@ -52,50 +53,52 @@ class Menu extends Component {
 
         const currentUser  = this.props.auth.user;
         const currentEc  = this.props.ec.current;
-        const textMenu = <span className="text-uppercase"><FaUserCircle  className="icon" /> { currentUser !== null ? currentUser.name : '' } </span> ;
+        const textMenu = <span className="text-uppercase"><FaUserCircle  className="icon mr-1" /> { currentUser !== null ? 'Teste' : '' } </span> ;
         
         return (
-            <div>
-                <Navbar className="navbar-theme" variant="light" bg="white">
+            <>
+                <Navbar className="navbar-theme" collapseOnSelect expand="md" variant="primary" bg="white">
+                
                 <Navbar.Brand href="#" onClick={ ev => ev.preventDefault() }>
-                    <img src={ PUBLIC_URL + '/img/logo.png' } alt="React" width="120" />
+                    <img src={ PUBLIC_URL + '/img/logo.png' } alt="React" width="120" className="d-inline-block align-middle" />
                 </Navbar.Brand>
-                <Nav>
-                    <NavLink to={`${this.props.history.location.pathname.split("/").slice(0, 2).join("/")}/dashboard/`} className="nav-link"><FaTachometerAlt className="icon" /> Dashboard</NavLink>
-                </Nav>
-                <Nav>
-                    <NavLink to={`${this.props.history.location.pathname.split("/").slice(0, 2).join("/")}/dataTableExample/`} className="nav-link"><FaTable className="icon" /> DataTable</NavLink>
-                </Nav>
-                <Nav>
-                    <NavLink to={`${this.props.history.location.pathname.split("/").slice(0, 2).join("/")}/form/`} className="nav-link"><FaUserEdit className="icon" /> Form</NavLink>
-                </Nav>
-                <Nav>
-                    <NavDropdown title={ <span>Outros</span> } alignRight>
-                        <NavDropdown.Item href="#action/3.1"><FaLifeRing className="icon" /> Suporte</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.2"><FaTasks className="icon" /> Lista Soluções</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.3"><FaBan className="icon" /> Bloqueios</NavDropdown.Item>
-                    </NavDropdown>
-                </Nav>
-                <Nav className={ "ml-auto " }>
-                    
-                </Nav>
-                <Nav  className={ 'ml-auto' }>
-                    <NavDropdown title={ textMenu } className="user-menu" >
-                        <NavDropdown.Item href="/" onClick={ this.logoutHandler }><FaSignOutAlt className="icon"  /> Sair </NavDropdown.Item>
-                    </NavDropdown>
-                </Nav>
+                <Navbar.Toggle className="text-primary" children={ <FaBars />} />
+                <Navbar.Collapse>
+                    <Nav>
+                        <NavLink to={`${this.props.history.location.pathname.split("/").slice(0, 2).join("/")}/dashboard/`} className="nav-link"><FaTachometerAlt className="icon" /> Dashboard</NavLink>
+                    </Nav>
+                    <Nav>
+                        <NavLink to={`${this.props.history.location.pathname.split("/").slice(0, 2).join("/")}/dataTableExample/`} className="nav-link"><FaTable className="icon" /> DataTable</NavLink>
+                    </Nav>
+                    <Nav>
+                        <NavLink to={`${this.props.history.location.pathname.split("/").slice(0, 2).join("/")}/form/`} className="nav-link"><FaUserEdit className="icon" /> Form</NavLink>
+                    </Nav>
+                    <Nav>
+                        <NavDropdown title={ <span>Outros</span> } alignRight>
+                            <NavDropdown.Item href="#action/3.1"><FaLifeRing className="icon" /> Suporte</NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.2"><FaTasks className="icon" /> Lista Soluções</NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.3"><FaBan className="icon" /> Bloqueios</NavDropdown.Item>
+                        </NavDropdown>
+                    </Nav>
+                    <Nav className={ "ml-auto " }>
+                        
+                    </Nav>
+                    <Nav  className={ 'ml-auto' }>
+                        <NavDropdown title={ textMenu } alignRight className="user-menu" >
+                            <NavDropdown.Item href="/" onClick={ this.logoutHandler }><FaSignOutAlt className="icon"  /> Sair </NavDropdown.Item>
+                        </NavDropdown>
+                    </Nav>
+                </Navbar.Collapse>
             </Navbar>
-            <Row className={ "secondary-navbar " }>
-                <Col sm={ 1 } className="text-right pr-1">
-                    <FaStoreAlt className="icon"  style={{ fontSize: "18px" }}/>
-                </Col>
+            <Row className={ "secondary-navbar d-none d-md-block" }>
                 <Col sm={ 11 } className="pl-1">
-                    <span className={"mr-5"}><strong>Código Loja:</strong> 10089</span>
-                    <span className={"mr-5"}><strong>Nome:</strong>  Supermecado Leal LTDA</span>
-                    <span className={"mr-5"}><strong>Responsável:</strong> João Ferreira </span>
+                    <FaStoreAlt className="icon mr-2"  style={{ fontSize: "18px" }}/>
+                    <span className={"mr-4"}><strong>Código Loja:</strong> 10089</span>
+                    <span className={"mr-4"}><strong>Nome:</strong>  Supermecado Leal LTDA</span>
+                    <span className={"mr-4"}><strong>Responsável:</strong> João Ferreira </span>
                 </Col>
             </Row>
-            </div>
+            </>
         );
     }
 }

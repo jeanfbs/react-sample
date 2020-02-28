@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux";
 import { authActions }  from "../../store/ducks/auth";
 import { alertActions }  from "../../store/ducks/alert";
 import { establishmentActions } from '../../store/ducks/establishment';
+
 import {
     Container,
     Card,

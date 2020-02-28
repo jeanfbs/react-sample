@@ -29,6 +29,7 @@ class Select extends React.Component {
       <div className="react-select">
         <SelectComponent
           {...props}
+          size="3"
           ref={this.setSelectRef}
           onChange={ this.onChange }
         />
