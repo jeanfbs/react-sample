@@ -22,11 +22,11 @@ import { Link } from "react-router-dom";
 import NumberFormat from 'react-number-format';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-import { alertActions }  from "../../../store/ducks/alert";
+import { alertActions }  from "../../store/ducks/alert";
 import BaseSelect from "react-select";
-import { ButtonState, Select } from "../../../components";
-import Utils from "../../../utils/Utils";
-import FormValidator from "../../../validators/FormValidator";
+import { ButtonState, Select } from "../../components";
+import Utils from "../../utils/Utils";
+import FormValidator from "../../validators/FormValidator";
 
 class FormExample extends Component {
 

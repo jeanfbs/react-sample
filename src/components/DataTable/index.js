@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import {
     Table,
     Row,
@@ -7,8 +7,11 @@ import {
     Form,
     InputGroup,
     FormControl,
-    Button
+    Button,
+    ButtonToolbar,
+    Dropdown
 } from 'react-bootstrap';
+import { LinkContainer } from "react-router-bootstrap";
 import {
     FaSearch,
     FaAngleLeft,
@@ -18,7 +21,12 @@ import {
     FaSortDown,
     FaSortUp,
     FaSort,
-    FaFilter
+    FaFilter,
+    FaPlus,
+    FaEye,
+    FaTrashAlt,
+    FaBars,
+    FaEdit
 } from "react-icons/fa";
 import axios from "axios";
 import "./style.css";
@@ -47,7 +55,9 @@ export default class DataTable extends Component {
         sort: null,
         processing: false,
         params: { },
-        response: null
+        response: null,
+        rowsSelected: [],
+        selectAll: false
     }
 
     httpRequestAxios = (url, params) => {
@@ -55,7 +65,9 @@ export default class DataTable extends Component {
         this.setState({ processing: true, response: null });
         this.httpAxios.get(url, { params })
         .then(res =>{  
-            this.setState({ response: res.data });
+            this.setState({ response: res.data});
+            this.state.response.data = this.state.response.data.slice(0,3);
+            this.setState({ response: this.state.response});
         }).catch(err => {
             this.props.doOnError(err);
         }).finally( () => {
@@ -146,11 +158,41 @@ export default class DataTable extends Component {
         this.httpRequestAxios(config.url, params);
         this.setState({ params });
     }
+
+    onChangeCheckSelectAll = (e) => {
+        let rowsSelected = [];
+        if(e.target.checked){
+            rowsSelected = this.state.response.data.map(item => item[0]);
+        }
+        this.setState({ 
+            selectAll: e.target.checked, 
+            rowsSelected
+        });
+    }
+
+    onChangeCheckRow = (event) => {
+
+        let rowsSelected = this.state.rowsSelected;
+        
+        if(event.target.checked){
+            rowsSelected.push(event.target.value);
+        }else{
+            rowsSelected = rowsSelected.filter(id => id !== event.target.value);
+            debugger;
+        }
+
+        let selectAll = this.state.response.data.length === rowsSelected.length;
+        if(!selectAll){
+            selectAll = null;
+        }
+        this.setState({ selectAll , rowsSelected});
+        
+    }
     
     render = () => {
 
-        let { sort, response, processing, params } = this.state;
-        const { responsive, config, entries, placeHolder } = this.props;
+        let { sort, response, processing, params, selectAll, rowsSelected } = this.state;
+        const { responsive, config, entries, placeHolder, linkToNew, linkToEdit, linkToView } = this.props;
 
         return (
             <div>
@@ -165,14 +207,29 @@ export default class DataTable extends Component {
                     align="top" 
                     entries={ entries }
                     page={ params.page } 
+                    sizeItemsSelected={rowsSelected ? rowsSelected.length : 0}
                     totalPages={ response != null ? response.totalPages : 0 } 
                     recordsFiltered={ response != null ? response.recordsFiltered : 0 } 
                     onNumberEntriesChange={ this.onNumberEntriesChange } 
                     onNumberPageChange={ this.onNumberPageChange }
-                    size={ params.size }/>
+                    size={ params.size }
+                    linkToNew={linkToNew}
+                    linkToEdit={linkToEdit}
+                    linkToView={linkToView}
+                />
                 <Table striped hover responsive={ responsive } size="sm">
                     <thead>
                         <tr>
+                            <th className="text-center">
+                                <Form.Check custom inline type={"checkbox"}
+                                    className={(response == null || response.length > 0) ? 'd-none': ''}
+                                    id={ "all" } 
+                                    label=""
+                                    checked={ selectAll != null && selectAll} 
+                                    onClick={this.onChangeCheckSelectAll} 
+                                    style={{verticalAlign: 'middle'}} 
+                                />
+                            </th>
                             { config.columns.map( (column, index ) => 
                                 <th key={ index }>
                                     { column.sortable != null && !column.sortable ? column.value : 
@@ -185,12 +242,12 @@ export default class DataTable extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        { response != null ? response.data.map(( rowData, index ) => <RowData key={ index } columns={ config.columns } data={ rowData }/>): '' }
+                        { response != null ? response.data.map(( rowData, index ) => <RowData key={ index } columns={ config.columns } onChangeCheck={ this.onChangeCheckRow } selected={ selectAll } data={ rowData }/>): '' }
                         <tr className={ processing === false && (response == null  || response.data.length === 0) ? '' : 'd-none'}>
-                            <td colSpan={ config.columns.length } className="text-center"> Nenhum resultado a ser exibido</td>
+                            <td colSpan={ config.columns.length + 1 } className="text-center"> Nenhum resultado a ser exibido</td>
                         </tr>
                         <tr className={ processing ? '' : 'd-none'}>
-                            <td colSpan={ config.columns.length } className="text-center"> 
+                            <td colSpan={ config.columns.length + 1 } className="text-center"> 
                             <div id="lds-ring" className="m-2"><div style={ { width: '20px', height: '20px' } } className="gray"></div></div>
                                 Carregando...
                             </td>
@@ -218,11 +275,49 @@ const SortIcon = props => (
      ( props.sort.direction ? <FaSortUp className={ props.className } /> : <FaSortDown className={ props.className } /> )
 )
 
-const RowData = props => (
-    <tr>
-        { props.columns.map((column, index) => <td key={index} className={ column.className }> { typeof column.render !== 'function' ? props.data[column.name] : column.render(column.name, props.data) } </td>) }
+class RowData extends Component {
+    
+    state = {
+        selected: false
+    }
+
+    onChangeCheck = ( event ) => {
+        
+        let selected = event.target.checked;
+        this.setState({ selected });
+        this.props.onChangeCheck( event );
+        
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps.selected != null){
+            
+            if(nextProps.selected){
+                this.setState({ selected: true });
+            }else if(!nextProps.selected){
+                this.setState({ selected: false });
+            }
+        }
+        
+    }
+    
+    render = () => (
+        <tr className={ this.state.selected ? "bg-light text-muted": "" }>
+        <td className="text-center">
+            <Form.Check custom inline 
+            name="item" 
+            value={this.props.data[ this.props.columns[0].name ]}
+            type={"checkbox"} 
+            id={ this.props.data[ this.props.columns[0].name ] } 
+            checked={ this.state.selected } 
+            label="" 
+            onChange={ this.onChangeCheck } 
+            style={ {verticalAlign: 'middle'} }/>
+        </td>
+        { this.props.columns.map((column, index) => <td key={index} className={ column.className }> { typeof column.render !== 'function' ? this.props.data[column.name] : column.render(column.name, this.props.data) } </td>) }
     </tr>
-)
+    )
+}
 
 
 const SearchDataTable = props => (
@@ -264,17 +359,33 @@ const DataTableTools = props => {
 
     return (
         <Row className={props.align === "top" ? "mb-0" : "mt-0"}>
-            <Col sm={2} className="p-0">
-                <span>Entradas</span>
-                <select className="entries" onChange={props.onNumberEntriesChange} value={props.size} >
-                    {entries.map((num, index) => (
-                        <option key={index} value={num}>
-                            {num == -1 ? "Todos" : num}
-                        </option>
-                    ))}
-                </select>
+            <Col sm={1} className="p-0">
+                <Dropdown className={props.align === "top" ? '': 'd-none'}>
+                    <Dropdown.Toggle variant="outline-secondary" size="sm">
+                        <FaBars /> Ações
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        <Dropdown.Item disabled={props.sizeItemsSelected > 0} href={props.linkToNew}><FaPlus /> Novo</Dropdown.Item>
+                        <Dropdown.Item disabled={props.sizeItemsSelected != 1} href={props.linkToEdit}><FaEdit/> Editar</Dropdown.Item>
+                        <Dropdown.Item disabled={props.sizeItemsSelected != 1} href={props.linkToView}><FaEye /> Visualiar</Dropdown.Item>
+                        <Dropdown.Divider />
+                        <Dropdown.Item disabled={props.sizeItemsSelected == 0} href="#/action-3"><FaTrashAlt /> Excluir</Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
             </Col>
-            <Col sm={3} className="p-0 offset-1">
+            <Col sm={2} className="p-0" >
+                <div className={props.align === "top" ? '': 'd-none'}>
+                    <select className="entries" onChange={props.onNumberEntriesChange} value={props.size} >
+                        {entries.map((num, index) => (
+                            <option key={index} value={num}>
+                                {num == -1 ? "Todos" : num}
+                            </option>
+                        ))}
+                    </select>
+                    <span>Itens</span>
+                </div>
+            </Col>
+            <Col sm={2} className="p-0 offset-1">
                 {props.recordsFiltered == 0 ? 0 : ((props.page * props.size) + 1)} / {props.recordsFiltered < (props.page + 1) * props.size ? props.recordsFiltered : (props.page + 1) * props.size} de {props.recordsFiltered} resultados
         </Col>
             <Col sm={2} className="p-0 offset-2">

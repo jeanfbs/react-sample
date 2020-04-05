@@ -74,6 +74,9 @@ class Menu extends Component {
                         <NavLink to={`${this.props.history.location.pathname.split("/").slice(0, 2).join("/")}/form/`} className="nav-link"><FaUserEdit className="icon" /> Form</NavLink>
                     </Nav>
                     <Nav>
+                        <NavLink to={`${this.props.history.location.pathname.split("/").slice(0, 2).join("/")}/crud`} className="nav-link"><FaUserEdit className="icon" /> CRUD</NavLink>
+                    </Nav>
+                    <Nav>
                         <NavDropdown title={ <span>Outros</span> } alignRight>
                             <NavDropdown.Item href="#action/3.1"><FaLifeRing className="icon" /> Suporte</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.2"><FaTasks className="icon" /> Lista Soluções</NavDropdown.Item>
