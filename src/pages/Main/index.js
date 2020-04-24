@@ -12,6 +12,7 @@ import { Alert } from "../../components";
 import  ClientDataTable  from '../Client/ClientDataTable';
 import  FormExample  from '../FormExample';
 import  CrudConsultar  from '../Crud/Consultar';
+import  CrudCadastrar  from '../Crud/Cadastrar';
 
 import { 
     DataTableExample,
@@ -42,6 +43,7 @@ class Main extends Component {
                     <Route path={ `${this.props.match.path}/cadastral-details/` } exact render={ (props) => <CadastralDetails {...props} key={props.match.params.id} /> } />
                     <Route path={ `${this.props.match.path}/form/` } exact component={ FormExample } />
                     <Route path={ `${this.props.match.path}/crud` } exact component={ CrudConsultar } />
+                    <Route path={ `${this.props.match.path}/crud/new` } exact component={ CrudCadastrar } />
                     {/* <Route path={ `${this.props.match.path}/clients/new` } exact component={ ClientForm } />
                     <Route path={ `${this.props.match.path}/clients/edit/:id` } exact component={ ClientForm } /> */}
                 </Switch>
