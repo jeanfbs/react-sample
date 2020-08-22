@@ -6,10 +6,10 @@
 .secondary-navbar{
     margin: 0!important;
     padding: 4px 0 ;
-    background: rgb(0,131,173);
-    background: -moz-linear-gradient(90deg, rgba(0,131,173,1) 0%, rgba(24,110,143,1) 50%, rgba(3,141,189,1) 100%);
-    background: -webkit-linear-gradient(90deg, rgba(0,131,173,1) 0%, rgba(24,110,143,1) 50%, rgba(3,141,189,1) 100%);
-    background: linear-gradient(90deg, rgba(0,131,173,1) 0%, rgba(24,110,143,1) 50%, rgba(3,141,189,1) 100%);
+    background: rgb(45, 12, 95);
+    background: -moz-linear-gradient(90deg, rgba(45, 12, 95,1) 0%, rgb(62, 16, 131) 50%, rgba(78, 9, 182) 100%);
+    background: -webkit-linear-gradient(90deg, rgba(45, 12, 95,1) 0%, rgba(62, 16, 131,1) 50%, rgba(78, 9, 182) 100%);
+    background: linear-gradient(90deg, rgba(45, 12, 95,1) 0%, rgba(62, 16, 131,1) 50%, rgba(78, 9, 182) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#0083ad",endColorstr="#038dbd",GradientType=1);
     color: #fff;
     -webkit-box-shadow: -1px 14px 11px -7px rgba(153,153,153,1);

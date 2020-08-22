@@ -20,8 +20,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { alertActions }  from "../../../store/ducks/alert";
 import { ButtonState } from "../../../components";
-import Utils from "../../../utils/Utils";
-import FormValidator from "../../../validators/FormValidator";
+import Utils from "../../../utils/FormDataSetter";
 
 class Details extends Component {
 
@@ -45,9 +44,6 @@ class Details extends Component {
     }
 
     submitHandler = async submitEvent =>{
-        
-        let isInvalid = FormValidator.validate(submitEvent);
-        this.setState({ validated: isInvalid });
         
         let formData = this.state.formData;
         this.setState({ processing: true });

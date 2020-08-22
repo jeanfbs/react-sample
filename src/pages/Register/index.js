@@ -19,8 +19,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { authActions }  from "../../store/ducks/auth";
 import { alertActions }  from "../../store/ducks/alert";
-import FormValidator from "../../validators/FormValidator";
-import Utils from "../../utils/Utils";
+import Utils from "../../utils/FormDataSetter";
 
 
 class Register extends Component {
@@ -52,12 +51,7 @@ class Register extends Component {
 
     submitHandler = async submitEvent => {
         
-        let isInvalid = FormValidator.validate(submitEvent);
-        this.setState({ validated: isInvalid, processing: !isInvalid });
-        if(isInvalid){
-            return false;
-        }
-        
+         
         const { formData } = this.state;
         
         try{

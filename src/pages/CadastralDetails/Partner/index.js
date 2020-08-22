@@ -31,9 +31,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { alertActions }  from "../../../store/ducks/alert";
 import { ButtonState, ConfirmModal } from "../../../components";
-import Utils from "../../../utils/Utils";
+import Utils from "../../../utils/FormDataSetter";
 import FieldValidator from "../../../validators/FieldValidator";
-import FormValidator from "../../../validators/FormValidator";
+
 
 class Partner extends Component {
 
@@ -92,9 +92,6 @@ class Partner extends Component {
 
     submitHandler = async submitEvent =>{
 
-        let isInvalid = FormValidator.validate(submitEvent);
-        this.setState({ validated: isInvalid });
-        
         let { formData } = this.state;
         this.setState({ processing: true });
         try{

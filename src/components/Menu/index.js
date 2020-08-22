@@ -27,7 +27,7 @@ import { bindActionCreators } from "redux";
 import SwapEcDropDown from "../SwapEcDropDown";
 import { authActions }  from "../../store/ducks/auth";
 import { establishmentActions }  from "../../store/ducks/establishment";
-import Utils from "../../utils/Utils";
+import Utils from "../../utils/FormDataSetter";
 import "./Menu.css";
 
 

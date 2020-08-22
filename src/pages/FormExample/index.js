@@ -25,8 +25,7 @@ import { bindActionCreators } from "redux";
 import { alertActions }  from "../../store/ducks/alert";
 import BaseSelect from "react-select";
 import { ButtonState, Select } from "../../components";
-import Utils from "../../utils/Utils";
-import FormValidator from "../../validators/FormValidator";
+import Utils from "../../utils/FormDataSetter";
 
 class FormExample extends Component {
 
@@ -59,13 +58,6 @@ class FormExample extends Component {
 
     submitHandler = async submitEvent =>{
         
-        let isInvalid = FormValidator.validate(submitEvent);
-        this.setState({ validated: isInvalid });
-        
-        if(isInvalid){
-            return false;
-        }
-
         let formData = this.state.formData;
         this.setState({ processing: true });
         

@@ -19,7 +19,7 @@ import {
     FaQuestionCircle
 } from "react-icons/fa";
 import { Spinner, DataTable } from "../../components";
-import Utils from "../../utils/Utils";
+import Utils from "../../utils/FormDataSetter";
 
 
 class DataTableExample extends Component {

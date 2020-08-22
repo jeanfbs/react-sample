@@ -28,8 +28,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { alertActions }  from "../../../store/ducks/alert";
 import { ButtonState, Switch, ConfirmModal } from "../../../components";
-import FormValidator from "../../../validators/FormValidator";
-import Utils from "../../../utils/Utils";
+import Utils from "../../../utils/FormDataSetter";
 
 
 
@@ -95,8 +94,6 @@ class Contacts extends Component {
     }
 
     submitHandler = async submitEvent =>{
-        let isInvalid = FormValidator.validate(submitEvent);
-        this.setState({ validated: isInvalid });
         
         let { formData } = this.state;
         this.setState({ processing: true });

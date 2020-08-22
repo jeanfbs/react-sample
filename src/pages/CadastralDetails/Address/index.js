@@ -19,8 +19,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { alertActions }  from "../../../store/ducks/alert";
 import { ButtonState, CepInput } from "../../../components";
-import Utils from "../../../utils/Utils";
-import FormValidator from "../../../validators/FormValidator";
+import Utils from "../../../utils/FormDataSetter";
 
 const initPeriodObj = {
     days: {
@@ -91,8 +90,6 @@ class Address extends Component {
         
         event.preventDefault();
         
-        let isInvalid = FormValidator.validate(event);
-        this.setState({ validated: isInvalid, processing: !isInvalid });
         let { periodFormData } = this.state;
 
         try{
@@ -265,8 +262,7 @@ class AddressForm extends Component {
     formValidationHandler = async (event, formData) => {
         
         event.preventDefault();
-        let isInvalid = FormValidator.validate(event);
-        this.setState({ validated: isInvalid, processing: !isInvalid });
+        
         await this.props.submitHandler(formData);
         this.setState({ processing: false, enableForm: false });
     }

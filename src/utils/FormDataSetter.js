@@ -21,7 +21,7 @@ export default {
             value = event.target.checked;
         }
 
-        formData[ name ] = value;
+        formData[ name ]['value'] = value;
         return formData;
     },
 
